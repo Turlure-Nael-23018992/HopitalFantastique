@@ -42,8 +42,14 @@ public class Vampire extends Creature implements Demoralisateur, Contamineur, Re
         }
     }
 
+    @Override
+    public void regenerer() {
+        super.getMoral().setValeur(100);
+    }
 
-
-
+    @Override
+    public Creature getCreature() {
+        return this;
+    }
 
 }
