@@ -53,7 +53,6 @@ class HommeBeteTest {
         }
     }
 
-    
     @Test
     void testContaminerSiMaladieDejaPresente() {
         elfe.tomberMalade(Maladie.MDC);
