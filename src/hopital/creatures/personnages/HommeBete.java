@@ -32,10 +32,7 @@ public class HommeBete extends Creature implements Contamineur, Triage {
         }
     }
 
-    @Override
-    public Creature getCreature() {
-        return this;
-    }
+
 
     @Override
     public void trepasser() {

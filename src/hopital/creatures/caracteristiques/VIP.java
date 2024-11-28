@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public interface VIP {
 
-    Creature getCreature();
+
     default void attendre(ArrayList<Creature> creatures, int temps) { //il perd de moin en moin de moral quand il y a des collegues (+ il y a des potes moin il perd du moral)
         creatures.remove(this);
         int countTriage = 1;
@@ -16,7 +16,7 @@ public interface VIP {
             }
 
         }
-        getCreature().getMoral().state(false, 10 / countTriage );
+        ((Creature)this).getMoral().state(false, 10 / countTriage );
     }
 
 }

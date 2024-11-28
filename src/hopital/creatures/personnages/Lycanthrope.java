@@ -31,10 +31,7 @@ public class Lycanthrope extends Creature implements Contamineur, Triage {
             newContamine.getMaladies().add(newMaladie);
         }
     }
-    @Override
-    public Creature getCreature() {
-        return this;
-    }
+
     @Override
     public void trepasser() {
         super.trepasser();

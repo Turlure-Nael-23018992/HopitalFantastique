@@ -24,6 +24,8 @@ public class Lycanthrope implements Comparable<Lycanthrope> {
     private final double niveau;
     private boolean estHumain = false;
     private boolean estMalade = false;
+    private boolean solitaire;  // Attribut pour savoir si le lycanthrope est solitaire
+
 
     private Lycanthrope maleAlpha;  // Le mâle α
     private Lycanthrope femelleAlpha;  // La femelle α
@@ -40,6 +42,7 @@ public class Lycanthrope implements Comparable<Lycanthrope> {
         this.facteurImpetuosite = facteurImpetuosite;
         this.meute = Objects.requireNonNull(meute);
         this.niveau = calculerNiveau();
+        this.solitaire = true;
     }
 
     private double calculerNiveau() {
@@ -86,6 +89,14 @@ public class Lycanthrope implements Comparable<Lycanthrope> {
 
     public void setRang(int rang) {
         this.rang = rang;
+    }
+
+    public boolean isSolitaire() {
+        return solitaire;
+    }
+
+    public void devenirNonSolitaire() {
+        this.solitaire = false;  // Passer un lycanthrope de solitaire à non solitaire
     }
 
     // Nouvelle méthode pour définir le couple alpha

@@ -11,15 +11,5 @@ public class Nain extends Creature implements VIP {
     public Nain(String name, Sexe sexe, int poids, int taille, int age) {
         super(name, sexe, poids, taille, age);
     }
-    public void attendre(ArrayList<Creature> creatures, int temps) { //il perd de moin en moin de moral quand il y a des collegues (+ il y a des potes moin il perd du moral)
-        creatures.remove(this);
-        int countTriage = 1;
-        for (Creature creature : creatures) {
-            if (creature instanceof Triage) {
-                countTriage++;
-            }
 
-        }
-        getMoral().state(false, 10 / countTriage );
-    }
 }
