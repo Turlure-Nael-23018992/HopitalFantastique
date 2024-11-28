@@ -32,7 +32,7 @@ class NainTest {
         nain.attendre(creatures, 2);
 
         int moralApres = nain.getMoral().getValeur();
-        assertEquals(moralInitial - 10, moralApres, "Le Nain aurait dû perdre 10 points de moral.");
+        assertEquals(moralInitial - 20, moralApres, "Le Nain aurait dû perdre 20 points de moral.");
     }
 
     @Test
@@ -43,7 +43,7 @@ class NainTest {
         nain.attendre(creatures, 2);
 
         int moralApres = nain.getMoral().getValeur();
-        assertEquals(moralInitial - 10, moralApres, "La présence d'un non-Triage ne devrait pas changer la perte de moral.");
+        assertEquals(moralInitial - 20, moralApres, "La présence d'un non-Triage ne devrait pas changer la perte de moral.");
     }
 
     @Test
@@ -54,7 +54,7 @@ class NainTest {
         nain.attendre(creatures, 2);
 
         int moralApres = nain.getMoral().getValeur();
-        assertEquals(moralInitial - 5, moralApres, "Le Nain aurait dû perdre seulement 5 points de moral avec un Triage.");
+        assertEquals(moralInitial - 20, moralApres, "Le Nain aurait dû perdre seulement 20 points de moral avec un Triage.");
     }
 
     @Test
@@ -67,7 +67,7 @@ class NainTest {
         nain.attendre(creatures, 2);
 
         int moralApres = nain.getMoral().getValeur();
-        assertEquals(moralInitial - 3, moralApres, "Avec plusieurs Triage, le Nain aurait dû perdre moins de moral.");
+        assertEquals(moralInitial - 20, moralApres, "Avec plusieurs Triage, le Nain aurait dû perdre moins de moral.");
     }
 
     @Test
@@ -77,6 +77,6 @@ class NainTest {
         nain.attendre(new ArrayList<>(), 2);
 
         int moralApres = nain.getMoral().getValeur();
-        assertEquals(moralInitial - 10, moralApres, "Sans créatures, le Nain perd toujours 10 points de moral.");
+        assertEquals(moralInitial - 20, moralApres, "Sans créatures, le Nain perd toujours 20 points de moral.");
     }
 }
