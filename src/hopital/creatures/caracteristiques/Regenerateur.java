@@ -3,5 +3,7 @@ package hopital.creatures.caracteristiques;
 import hopital.creatures.Creature;
 
 public interface Regenerateur {
-    void regenerer();
+    default void regenerer() {
+        ((Creature)this).getMoral().setValeur(100);
+    }
 }

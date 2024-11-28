@@ -1,18 +1,30 @@
 package hopital.sante;
 
 import hopital.creatures.Creature;
+import hopital.creatures.caracteristiques.Triage;
+import hopital.creatures.caracteristiques.VIP;
 import hopital.sante.caracteristiques.Budget;
+import hopital.sante.centre.Crypte;
 
 import java.util.ArrayList;
 
 public abstract class ServiceMedical {
+    private static ServiceMedical instance ;
     private String nom;
     private int superficie;
     private int max;
     private int nbPresent;
     private ArrayList<Creature> creatures = new ArrayList<Creature>();
     private Budget budget;
-
+    protected ServiceMedical(String nom, int superficie, int max) {
+        this.nom = nom;
+        this.superficie = superficie;
+        this.max = max;
+        instance = this;
+    }
+    public static ServiceMedical getInstance() {
+        return instance;
+    }
     public String getNom() {
         return nom;
     }

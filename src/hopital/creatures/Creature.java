@@ -5,11 +5,13 @@ import hopital.Sexe;
 import hopital.creatures.caracteristiques.Triage;
 import hopital.creatures.caracteristiques.VIP;
 import hopital.sante.Maladie;
+import hopital.sante.ServiceMedical;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Creature {
+    private static Creature instance ;
     private String name;
     private Sexe sexe;
     private int poids;
@@ -26,14 +28,18 @@ public abstract class Creature {
         this.age = age;
         this.moral = Moral.AUTOP;
         this.maladies = new ArrayList<Maladie>();
+        instance = this;
     }
 
     public Creature(String name, Sexe sexe, int age) {
         this.name = name;
         this.sexe = sexe;
         this.age = age;
+        instance = this;
     }
-
+    public static Creature getInstance() {
+        return instance;
+    }
     public void attendre() {
         moral.state(false, 5);
         System.out.println("La créature " + this.name + " a attendu et a maintenant un moral de " + this.moral);
@@ -140,9 +146,9 @@ public abstract class Creature {
         try {
             Thread.sleep(temps * 1000);
             if (this instanceof VIP) {
-                ((VIP) this).attendre(creatures,temps);
+                ((VIP) this).attendre(temps);
             } else if (this instanceof Triage) {
-                ((Triage) this).attendre(temps);
+                ((Triage) this).attendre(creatures, temps);
             }
         } catch (InterruptedException e) {
             System.err.println("Interruption pendant l'attente: " + e.getMessage());

@@ -18,18 +18,19 @@ public class Lycanthrope implements Comparable<Lycanthrope> {
     private final CategorieAge categorieAge;
     private final int force;
     private final int facteurDomination;
-    private int rang;  // Enlevez le final ici
+    private int rang;
     private final double facteurImpetuosite;
     private String meute;
     private final double niveau;
     private boolean estHumain = false;
     private boolean estMalade = false;
-    private boolean solitaire;  // Attribut pour savoir si le lycanthrope est solitaire
+    private boolean solitaire;
 
+    // Mâle et femelle alpha de la meute
+    public Lycanthrope maleAlpha;
+    public Lycanthrope femelleAlpha;
 
-    private Lycanthrope maleAlpha;  // Le mâle α
-    private Lycanthrope femelleAlpha;  // La femelle α
-
+    // Constructeur
     public Lycanthrope(Sexe sexe, CategorieAge categorieAge, int force, int facteurDomination, int rang, double facteurImpetuosite, String meute) {
         if (force <= 0) throw new IllegalArgumentException("La force doit être positive.");
         if (rang < 0) throw new IllegalArgumentException("Le rang ne peut pas être négatif.");
@@ -40,11 +41,12 @@ public class Lycanthrope implements Comparable<Lycanthrope> {
         this.facteurDomination = facteurDomination;
         this.rang = rang;
         this.facteurImpetuosite = facteurImpetuosite;
-        this.meute = Objects.requireNonNull(meute);
+        this.meute = (meute != null) ? meute : "Inconnue";  // Valeur par défaut si meute est null
         this.niveau = calculerNiveau();
-        this.solitaire = true;
+        this.solitaire = true;  // Initialement, le lycanthrope est solitaire
     }
 
+    // Méthode pour calculer le niveau du lycanthrope
     private double calculerNiveau() {
         double coefficientAge = switch (categorieAge) {
             case JEUNE -> 1.0;
@@ -93,6 +95,10 @@ public class Lycanthrope implements Comparable<Lycanthrope> {
 
     public boolean isSolitaire() {
         return solitaire;
+    }
+
+    public String getMeute() {
+        return meute;
     }
 
     public void devenirNonSolitaire() {
@@ -156,8 +162,6 @@ public class Lycanthrope implements Comparable<Lycanthrope> {
         System.out.println("Le lycanthrope s'est transformé en humain.");
     }
 
-
-
     @Override
     public String toString() {
         return "Lycanthrope{" +
@@ -170,6 +174,7 @@ public class Lycanthrope implements Comparable<Lycanthrope> {
                 ", meute='" + meute + '\'' +
                 ", niveau=" + niveau +
                 ", estHumain=" + estHumain +
+                ", solitaire=" + solitaire +
                 '}';
     }
 }

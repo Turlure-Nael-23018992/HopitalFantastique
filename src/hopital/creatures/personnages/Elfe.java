@@ -14,16 +14,12 @@ public class Elfe extends Creature implements Demoralisateur, VIP {
         super(name, sexe, poids, taille, age);
     }
 
-    @Override
-    public void demoraliser(Creature creature) {
-        creature.getMoral().state(false, 5);
-        System.out.println("L'elfe " + this.getName() + " démoralise " + creature.getName());
-    }
+
 
     @Override
     public void trepasser() {
         super.trepasser();
-        demoraliser(this);
+        demoraliser(Creature.getInstance());
     }
 
 }

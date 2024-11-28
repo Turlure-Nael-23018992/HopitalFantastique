@@ -12,5 +12,4 @@ public class Reptilien extends Creature implements VIP {
         super(name, sexe, poids, taille, age);
     }
 
-
 }
