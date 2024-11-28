@@ -7,9 +7,11 @@ import hopital.sante.caracteristiques.Budget;
 import hopital.sante.centre.Crypte;
 
 import java.util.ArrayList;
+import java.util.concurrent.locks.ReentrantLock;
 
 public abstract class ServiceMedical {
     private static ServiceMedical instance ;
+    private final ReentrantLock lock = new ReentrantLock();
     private String nom;
     private int superficie;
     private int max;
@@ -21,6 +23,9 @@ public abstract class ServiceMedical {
         this.superficie = superficie;
         this.max = max;
         instance = this;
+    }
+    public ReentrantLock getLock() {
+        return lock;
     }
     public static ServiceMedical getInstance() {
         return instance;

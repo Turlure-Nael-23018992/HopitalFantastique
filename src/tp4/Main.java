@@ -1,112 +1,81 @@
-package tp4;
+/*package tp4;
 
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        // Création de lycanthropes
-        Lycanthrope lycan1 = new Lycanthrope("Fenrir", Lycanthrope.Sexe.MALE, Lycanthrope.CategorieAge.ADULTE, 50, 10, 2, 0.5, "solitaire");
-        Lycanthrope lycan2 = new Lycanthrope("Luna", Lycanthrope.Sexe.FEMELLE, Lycanthrope.CategorieAge.ADULTE, 45, 15, 1, 0.4, "solitaire");
-        Lycanthrope lycan3 = new Lycanthrope("Balto", Lycanthrope.Sexe.MALE, Lycanthrope.CategorieAge.JEUNE, 30, 5, 3, 0.3, "solitaire");
-        Lycanthrope lycan4 = new Lycanthrope("Selene", Lycanthrope.Sexe.FEMELLE, Lycanthrope.CategorieAge.ADULTE, 60, 20, 1, 0.7, "solitaire");
-        Lycanthrope lycan5 = new Lycanthrope("Ragnar", Lycanthrope.Sexe.MALE, Lycanthrope.CategorieAge.VIEUX, 40, 8, 2, 0.2, "solitaire");
+        // === Création de la colonie ===
+        Colonie colonie = new Colonie();
 
-        // Création d'une meute
-        Meute meute = new Meute();
+        // === Création de deux meutes ===
+        Meute meute1 = new Meute();
+        Meute meute2 = new Meute();
 
-        // Ajout des lycanthropes à la meute
-        System.out.println("\n=== Ajout de lycanthropes ===");
-        meute.ajouterLycanthrope(lycan1);
-        meute.ajouterLycanthrope(lycan2);
-        meute.ajouterLycanthrope(lycan3);
-        meute.ajouterLycanthrope(lycan4);
-        meute.ajouterLycanthrope(lycan5);
+        // === Ajout de lycanthropes à la première meute ===
+        meute1.ajouterLycanthrope(new Lycanthrope("Fenrir", Lycanthrope.Sexe.MALE, Lycanthrope.CategorieAge.ADULTE, 50, 10, 2, 0.5, "Meute1"));
+        meute1.ajouterLycanthrope(new Lycanthrope("Luna", Lycanthrope.Sexe.FEMELLE, Lycanthrope.CategorieAge.ADULTE, 45, 15, 1, 0.4, "Meute1"));
+        meute1.ajouterLycanthrope(new Lycanthrope("Balto", Lycanthrope.Sexe.MALE, Lycanthrope.CategorieAge.JEUNE, 30, 5, 3, 0.3, "Meute1"));
 
-        // Affichage des caractéristiques de la meute
-        System.out.println("\n=== Caractéristiques de la meute ===");
-        meute.afficherCaracteristiques();
+        // === Ajout de lycanthropes à la deuxième meute ===
+        meute2.ajouterLycanthrope(new Lycanthrope("Selene", Lycanthrope.Sexe.FEMELLE, Lycanthrope.CategorieAge.ADULTE, 60, 20, 1, 0.7, "Meute2"));
+        meute2.ajouterLycanthrope(new Lycanthrope("Ragnar", Lycanthrope.Sexe.MALE, Lycanthrope.CategorieAge.VIEUX, 40, 8, 2, 0.2, "Meute2"));
 
-        // Affichage des lycanthropes
-        System.out.println("\n=== Liste des lycanthropes ===");
-        meute.afficherLycanthropes();
+        // === Ajout des meutes à la colonie ===
+        colonie.ajouterMeute(meute1);
+        colonie.ajouterMeute(meute2);
 
-        // Définition d'un couple α
-        System.out.println("\n=== Définition d'un couple α ===");
-        meute.definirCoupleAlpha(lycan1, lycan2); // Fenrir et Luna
+        // === Affichage initial des lycanthropes dans la colonie ===
+        System.out.println("\n=== Affichage initial des lycanthropes ===");
+        colonie.afficherLycanthropes();
 
-        // Lancer une reproduction
-        System.out.println("\n=== Lancer une reproduction ===");
-        meute.lancerReproduction();
+        // === Définition du couple α dans chaque meute ===
+        System.out.println("\n=== Définition des couples α ===");
+        meute1.definirCoupleAlpha(meute1.getLycanthropes().get(0), meute1.getLycanthropes().get(1)); // Fenrir et Luna
+        meute2.definirCoupleAlpha(meute2.getLycanthropes().get(1), meute2.getLycanthropes().get(0)); // Ragnar et Selene
 
-        // Afficher la liste des lycanthropes après reproduction
-        System.out.println("\n=== Liste des lycanthropes après reproduction ===");
-        meute.afficherLycanthropes();
+        // === Simulation des événements temporels ===
+        System.out.println("\n=== Début de la simulation temporelle ===");
+        for (int intervalle = 1; intervalle <= 5; intervalle++) {
+            System.out.println("\n--- Intervalle temporel " + intervalle + " ---");
+            colonie.gererEvenements();
+            colonie.afficherLycanthropes();
+        }
+
+        // === Test manuel des fonctionnalités ===
+        System.out.println("\n=== Test manuel des fonctionnalités ===");
 
         // Tentative de domination
-        System.out.println("\n=== Tentative de domination ===");
-        lycan3.tenterDomination(lycan1); // Balto tente de dominer Fenrir
-        lycan1.tenterDomination(lycan4); // Fenrir tente de dominer Selene
+        System.out.println("\n--- Tentative de domination ---");
+        Lycanthrope fenrir = meute1.getLycanthropes().get(0); // Récupère Fenrir
+        Lycanthrope luna = meute1.getLycanthropes().get(1);   // Récupère Luna
+        fenrir.tenterDomination(luna); // Fenrir tente de dominer Luna
 
-        // Déclarer un lycanthrope ω
-        System.out.println("\n=== Déclarer un lycanthrope ω ===");
-        meute.declarerOmega(lycan3);
+        // Hurlements
+        System.out.println("\n--- Gestion des hurlements ---");
+        Hurlement hurlementMeute = fenrir.emettreHurlement(Hurlement.TypeHurlement.MEUTE, "Unissons nos forces !");
+        meute1.propagerHurlement(hurlementMeute);
 
-        // Diminuer les rangs de domination
-        System.out.println("\n=== Diminuer les rangs de domination ===");
-        meute.diminuerRangsDomination();
+        // Transformation en humain
+        System.out.println("\n--- Transformation en humain ---");
+        meute1.gererTransformation(fenrir);
 
-        // Créer une nouvelle hiérarchie avec les lycanthropes restants
-        System.out.println("\n=== Créer une nouvelle hiérarchie ===");
-        meute.creerNouvelleHierarchie(List.of(lycan1, lycan2, lycan4));
+        // Reproduction
+        System.out.println("\n--- Reproduction ---");
+        meute2.lancerReproduction();
 
-        // Affichage des caractéristiques de la meute après hiérarchie
-        System.out.println("\n=== Caractéristiques de la meute après nouvelle hiérarchie ===");
-        meute.afficherCaracteristiques();
+        // Vieillissement
+        System.out.println("\n--- Vieillissement manuel des lycanthropes ---");
+        for (Lycanthrope lycan : meute2.getLycanthropes()) {
+            lycan.vieillir();
+        }
 
-        // Supprimer un lycanthrope de la meute
-        System.out.println("\n=== Supprimer un lycanthrope ===");
-        meute.enleverLycanthrope(lycan1); // Retirer Fenrir de la meute
+        // Nouvelle hiérarchie après suppression de lycanthropes
+        System.out.println("\n--- Suppression de lycanthropes et réorganisation ---");
+        meute1.enleverLycanthrope(luna);
+        meute1.creerNouvelleHierarchie(meute1.getLycanthropes());
 
-        // Affichage final de la meute
-        System.out.println("\n=== Caractéristiques finales de la meute ===");
-        meute.afficherCaracteristiques();
-        meute.afficherLycanthropes();
-
-        // Gestion des hurlements
-        System.out.println("\n=== Gestion des hurlements ===");
-
-        // Fenrir émet un hurlement de meute
-        Hurlement hurlementMeute = lycan1.emettreHurlement(Hurlement.TypeHurlement.MEUTE, "Unissons nos forces !");
-        meute.propagerHurlement(hurlementMeute);
-
-        // Selene émet un hurlement de domination
-        Hurlement hurlementDomination = lycan4.emettreHurlement(Hurlement.TypeHurlement.DOMINATION, "Je suis la plus forte !");
-        meute.propagerHurlement(hurlementDomination);
-
-        // Balto émet un hurlement de soumission
-        Hurlement hurlementSoumission = lycan3.emettreHurlement(Hurlement.TypeHurlement.SOUMISSION, "Je me rends...");
-        meute.propagerHurlement(hurlementSoumission);
-
-        // Luna émet un hurlement d'agressivité
-        Hurlement hurlementAgressivite = lycan2.emettreHurlement(Hurlement.TypeHurlement.AGRESSIVITE, "Grrr... Tenez-vous à distance !");
-        meute.propagerHurlement(hurlementAgressivite);
-
-        // Transformation individuelle
-        System.out.println("\n=== Transformation individuelle ===");
-        meute.gererTransformation(lycan4); // Selene tente de se transformer
-
-        // Affichage après transformation individuelle
-        System.out.println("\n=== Meute après transformation individuelle ===");
-        meute.afficherCaracteristiques();
-        meute.afficherLycanthropes();
-
-        // Transformation collective
-        System.out.println("\n=== Transformation collective ===");
-        meute.transformerMeute();
-
-        // Affichage après transformation collective
-        System.out.println("\n=== Meute après transformation collective ===");
-        meute.afficherCaracteristiques();
-        meute.afficherLycanthropes();
+        // === Affichage final des lycanthropes ===
+        System.out.println("\n=== Affichage final des lycanthropes ===");
+        colonie.afficherLycanthropes();
     }
-}
+}*/

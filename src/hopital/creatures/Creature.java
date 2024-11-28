@@ -6,12 +6,15 @@ import hopital.creatures.caracteristiques.Triage;
 import hopital.creatures.caracteristiques.VIP;
 import hopital.sante.Maladie;
 import hopital.sante.ServiceMedical;
+import java.util.Random;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.ReentrantLock;
 
 public abstract class Creature {
     private static Creature instance ;
+    private final ReentrantLock lock = new ReentrantLock();
     private String name;
     private Sexe sexe;
     private int poids;
@@ -36,6 +39,9 @@ public abstract class Creature {
         this.sexe = sexe;
         this.age = age;
         instance = this;
+    }
+    public ReentrantLock getLock() {
+        return lock;
     }
     public static Creature getInstance() {
         return instance;
@@ -65,9 +71,23 @@ public abstract class Creature {
         }
     }
 
-    public void tomberMalade(Maladie maladie) {
-        maladies.add(maladie);
-        System.out.println("La créature " + this.name + " est tombée malade de " + maladie.getNomComplet());
+    public void tomberMalade() {
+        // Récupérer toutes les maladies possibles
+        Maladie[] maladiesPossibles = Maladie.values();
+
+        // Sélectionner une maladie aléatoire
+        Random random = new Random();
+        Maladie nouvellesMaladie = maladiesPossibles[random.nextInt(maladiesPossibles.length)];
+
+        // Vérifier si la créature n'a pas déjà cette maladie
+        if (!maladies.contains(nouvellesMaladie)) {
+            maladies.add(nouvellesMaladie);
+            System.out.println("La créature " + this.name + " est tombée malade de " + nouvellesMaladie.getNomComplet());
+        } else {
+            // Si la créature a déjà cette maladie, on augmente son niveau
+            nouvellesMaladie.augmenterNiveau(1);
+            System.out.println("La maladie " + nouvellesMaladie.getNomComplet() + " de " + this.name + " s'est aggravée");
+        }
     }
 
     public void etreSoignee(Maladie maladie) {

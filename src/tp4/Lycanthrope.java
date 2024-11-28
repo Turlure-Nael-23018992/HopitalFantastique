@@ -14,13 +14,13 @@ public class Lycanthrope implements Comparable<Lycanthrope> {
 
     private final String nom; // Nom du lycanthrope
     private final Sexe sexe; // Sexe
-    private final CategorieAge categorieAge; // Catégorie d'âge
+    private CategorieAge categorieAge; // Catégorie d'âge
     private final int force; // Force du lycanthrope
     private int facteurDomination; // Facteur de domination
     private int rang; // Rang de domination
     private final double facteurImpetuosite; // Facteur d'impétuosité (entre 0 et 1)
     private String meute; // Nom de la meute
-    private final double niveau; // Niveau calculé
+    private double niveau; // Niveau calculé
     private boolean estHumain = false; // Indique si transformé en humain
     private boolean estMalade = false; // Indique si malade
     private boolean solitaire; // Indique si le lycanthrope est solitaire
@@ -202,5 +202,34 @@ public class Lycanthrope implements Comparable<Lycanthrope> {
             this.estHumain = true; // Transformé en humain mais reste dans la meute
             return false; // Le lycanthrope reste dans la meute
         }
+    }
+
+    public void vieillir() {
+        System.out.println(this.nom + " vieillit.");
+        switch (this.categorieAge) {
+            case JEUNE:
+                this.categorieAge = CategorieAge.ADULTE;
+                System.out.println(this.nom + " est maintenant un adulte.");
+                break;
+            case ADULTE:
+                this.categorieAge = CategorieAge.VIEUX;
+                System.out.println(this.nom + " est maintenant vieux.");
+                break;
+            case VIEUX:
+                System.out.println(this.nom + " est déjà vieux et ne peut pas vieillir davantage.");
+                break;
+        }
+        recalculerNiveau(); // Recalculer le niveau après le vieillissement
+    }
+
+    // Méthode pour recalculer le niveau après un changement
+    private void recalculerNiveau() {
+        double coefficientAge = switch (categorieAge) {
+            case JEUNE -> 1.0;
+            case ADULTE -> 1.5;
+            case VIEUX -> 2.0;
+        };
+        this.niveau = coefficientAge * (force + facteurDomination * 0.5 + rang * 2);
+        System.out.println("Niveau recalculé pour " + this.nom + ": " + this.niveau);
     }
 }
