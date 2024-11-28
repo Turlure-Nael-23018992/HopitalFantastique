@@ -18,15 +18,12 @@ public class Crypte extends ServiceMedical {
                    ArrayList<Creature> creatures,
                    Budget budget) {
         super(nom, superficie, max);
+
+        super.setNbPresent(super.getNbPresent() + nbPresent);
     }
 
 
 
-    @Override
-    public String toString(){
-        System.out.println("Crypte");
-        return "";
-    } //afficher ses caractéristiques ainsi que les caractéristiques des créatures qu'il contient
 
     public void deleteCreature(Creature creature){
         getCreatures().remove(creature);

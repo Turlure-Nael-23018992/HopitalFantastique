@@ -179,5 +179,32 @@ public abstract class Creature {
         }
 
     }
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(name).append(" (").append(sexe).append(") : ");
+        sb.append("Age: ").append(age).append(" ans");
+
+        // Uniquement si poids et taille sont initialisés (> 0)
+        if (poids > 0) {
+            sb.append(", Poids: ").append(poids).append(" kg");
+        }
+        if (taille > 0) {
+            sb.append(", Taille: ").append(taille).append(" cm");
+        }
+
+        sb.append(", Moral: ").append(moral);
+
+        // Affichage des maladies si présentes
+        if (!maladies.isEmpty()) {
+            sb.append("\n   Maladies: ");
+            for (Maladie maladie : maladies) {
+                sb.append("\n   - ").append(maladie.getNomComplet());
+            }
+        }
+
+        return sb.toString();
+    }
 
 }

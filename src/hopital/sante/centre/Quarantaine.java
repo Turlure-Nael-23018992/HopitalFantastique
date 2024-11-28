@@ -16,13 +16,9 @@ public class Quarantaine extends ServiceMedical {
                        ArrayList<Creature> creatures,
                        Budget budget) {
         super(nom, superficie, max);
+        super.setNbPresent(super.getNbPresent() + nbPresent);
     }
 
-    @Override
-    public String toString(){
-        System.out.println("Quarentaine");
-        return "";
-    } //afficher ses caractéristiques ainsi que les caractéristiques des créatures qu'il contient
 
     public void addCreature(Creature creature){
         getCreatures().add(creature);

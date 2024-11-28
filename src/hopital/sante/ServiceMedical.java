@@ -18,11 +18,21 @@ public abstract class ServiceMedical {
     private int nbPresent;
     private ArrayList<Creature> creatures = new ArrayList<Creature>();
     private Budget budget;
-    protected ServiceMedical(String nom, int superficie, int max) {
+
+    public ServiceMedical(String nom, int superficie, int max) {
         this.nom = nom;
         this.superficie = superficie;
         this.max = max;
-        instance = this;
+    }
+
+    public void addCreature(Creature creature) {
+        if (nbPresent < max) {
+            creatures.add(creature);
+            nbPresent++;  // Mise à jour du nombre de présents
+            System.out.println(creature.getName() + " a été ajouté au service " + this.nom);
+        } else {
+            System.out.println("Le service est plein, impossible d'ajouter " + creature.getName());
+        }
     }
     public ReentrantLock getLock() {
         return lock;
@@ -66,9 +76,7 @@ public abstract class ServiceMedical {
         return creatures;
     }
 
-    public void setCreatures(ArrayList<Creature> creatures) {
-        this.creatures = creatures;
-    }
+
 
     public Budget getBudget() {
         return budget;
@@ -78,12 +86,36 @@ public abstract class ServiceMedical {
         this.budget = budget;
     }
 
-    public void addCreature(Creature creature){
-        creatures.add(creature);
+    public void setCreatures(ArrayList<Creature> creatures) {
+        this.creatures = creatures;
+        this.nbPresent = creatures.size();
     }
 
     @Override
-    public abstract String toString(); //afficher ses caractéristiques ainsi que les caractéristiques des créatures qu'il contient
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        // En-tête avec les informations du service
+        sb.append("\n=== Service Médical: ").append(nom).append(" ===\n");
+        sb.append("Superficie: ").append(superficie).append(" m²\n");
+        sb.append("Capacité maximale: ").append(max).append(" créatures\n");
+        sb.append("Nombre de patients présents: ").append(this.nbPresent).append("\n");
+        sb.append("Budget actuel: ").append(this.budget).append("\n");
+
+        // Liste des créatures
+        sb.append("\nListe des patients:\n");
+        if (this.creatures.isEmpty()) {
+            sb.append("Aucun patient présent\n");
+        } else {
+            for (Creature creature : creatures) {
+                sb.append("- ").append(creature.toString()).append("\n");
+            }
+        }
+
+        sb.append("=====================================\n");
+
+        return sb.toString();
+    }
 
 
     public abstract void deleteCreature(Creature creature);

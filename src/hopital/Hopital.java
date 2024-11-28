@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
+import hopital.creatures.personnages.Elfe;
+import hopital.creatures.personnages.Vampire;
 import hopital.sante.ServiceMedical;
 import hopital.sante.centre.Crypte;
 import hopital.sante.centre.Quarantaine;
@@ -167,7 +169,7 @@ public class Hopital {
         System.out.println("Choisissez un service à examiner:");
         int choix = scanner.nextInt();
         if (choix >= 0 && choix < servicesMedicaux.size()) {
-           // medecin.examinerService(servicesMedicaux.get(choix));
+           System.out.println(servicesMedicaux.get(choix));
         }
     }
 
@@ -233,7 +235,7 @@ public class Hopital {
             simulerTour();
 
             System.out.println("\nAppuyez sur Entrée pour continuer ou tapez 'q' pour quitter");
-            scanner.nextLine(); // Consomme le retour à la ligne précédent
+            scanner.nextLine();
             String input = scanner.nextLine();
             if (input.equalsIgnoreCase("q")) {
                 break;
@@ -247,39 +249,64 @@ public class Hopital {
         // Création d'un nouvel hôpital
         Hopital hopital = new Hopital("Fantasy Hospital", 5);
 
-        // Création des listes de créatures vides pour l'initialisation
-        ArrayList<Creature> creaturesQuarantaine = new ArrayList<>();
-        ArrayList<Creature> creaturesCrypte = new ArrayList<>();
+        ArrayList<Creature> creatures = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            Creature elfe = new Elfe(
+                    "Elfe"+i,
+                    Sexe.FEMININ,
+                    10+i,
+                    10+i,
+                    10+i
+            );
+            creatures.add(elfe);
+        }
 
-        // Création des services avec les paramètres requis
+        // Création des services
         ServiceMedical crypte = new Crypte(
                 "Crypte des Non-Morts",
-                200,  // superficie
-                10,   // capacité maximum
-                0,    // nombre présent initial
-                creaturesCrypte,
+                200,
+                10,
+                0,
+                new ArrayList<>(),
                 Budget.MEDIOCRE
         );
+        crypte.setBudget(Budget.MEDIOCRE);
 
         ServiceMedical quarantaine = new Quarantaine(
                 "Zone de Quarantaine",
-                300,  // superficie
-                15,   // capacité maximum
-                0,    // nombre présent initial
-                creaturesQuarantaine,
-                Budget.INSUFFISANT
+                300,
+                10,
+                0,
+                new ArrayList<>(),
+                Budget.MEDIOCRE
         );
+        quarantaine.setBudget(Budget.MEDIOCRE);
+
+        // Ajouter les créatures à la quarantaine
+        for (Creature creature : creatures) {
+            quarantaine.addCreature(creature);
+        }
 
         // Ajout des services à l'hôpital
         hopital.ajouterService(crypte);
         hopital.ajouterService(quarantaine);
 
-        // Création des médecins (en supposant que la classe Medecin existe)
+        // Création et ajout des médecins avec vérification
         Medecin medecinElfe = new Medecin("Elrond", Sexe.MASCULIN, 2000);
         Medecin medecinVampire = new Medecin("Alucard", Sexe.FEMININ, 500);
 
         hopital.ajouterMedecin(medecinElfe);
         hopital.ajouterMedecin(medecinVampire);
+
+        // Vérification de l'ajout des médecins
+        System.out.println("\nMédecins dans l'hôpital:");
+        if (hopital.getMedecins().isEmpty()) {
+            System.out.println("Aucun médecin n'a été ajouté correctement!");
+        } else {
+            for (Medecin medecin : hopital.getMedecins()) {
+                System.out.println("Dr. " + medecin.getNom());
+            }
+        }
 
         // Démarrage de la simulation
         hopital.demarrerSimulation();
