@@ -10,13 +10,14 @@ public class Zombie extends Creature implements Regenerateur {
     }
 
     @Override
-    public void regenerer(Creature creature) {
-        // TODO
+    public void regenerer() {
+        super.getMoral().setValeur(100);
+
     }
 
     @Override
     public void trepasser() {
         super.trepasser();
-        regenerer(this);
+        this.regenerer();
     }
 }

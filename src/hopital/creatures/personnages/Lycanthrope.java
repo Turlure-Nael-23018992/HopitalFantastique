@@ -31,7 +31,10 @@ public class Lycanthrope extends Creature implements Contamineur, Triage {
             newContamine.getMaladies().add(newMaladie);
         }
     }
+    public void attendre(int temps) { //faire en sorte que plus il attend plus il perd du moral
 
+        getMoral().state(false, 10 * temps);
+    }
     @Override
     public void trepasser() {
         super.trepasser();

@@ -46,6 +46,27 @@ public class Lycanthrope {
         return coefficientAge * (force + facteurDomination * 0.5 + rang * 2);
     }
 
+    @Override
+    public int compareTo(Lycanthrope other) {
+        return Integer.compare(this.rang, other.rang);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Lycanthrope that = (Lycanthrope) o;
+        return rang == that.rang &&
+                sexe == that.sexe &&
+                categorieAge == that.categorieAge &&
+                meute.equals(that.meute);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(sexe, categorieAge, rang, meute);
+    }
+
     public void afficherCaracteristiques() {
         System.out.println(this);
     }

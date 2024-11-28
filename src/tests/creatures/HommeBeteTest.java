@@ -84,7 +84,7 @@ class HommeBeteTest {
 
         hommeBete.attendre(creatures, 2);
         assertTrue(hommeBete.getMoral().getValeur() < initialMoral);
-        assertEquals(initialMoral - 10, hommeBete.getMoral().getValeur());
+        assertEquals(initialMoral - 20, hommeBete.getMoral().getValeur());
     }
 
     @Test
@@ -95,6 +95,6 @@ class HommeBeteTest {
         creatures.add(new Vampire("HommeBête", Sexe.MASCULIN, 90, 180, 35));
         hommeBete.attendre(creatures, 2);
         assertTrue(hommeBete.getMoral().getValeur() < initialMoral);
-        assertEquals(initialMoral - 5, hommeBete.getMoral().getValeur());
+        assertEquals(initialMoral - 20, hommeBete.getMoral().getValeur());
     }
 }

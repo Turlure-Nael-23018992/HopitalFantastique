@@ -137,9 +137,9 @@ public abstract class Creature {
         try {
             Thread.sleep(temps * 1000);
             if (this instanceof VIP) {
-                attendreVIP(temps);
+                ((VIP) this).attendre(creatures,temps);
             } else if (this instanceof Triage) {
-                attendreTriage(creatures, temps);
+                ((Triage) this).attendre(temps);
             }
         } catch (InterruptedException e) {
             System.err.println("Interruption pendant l'attente: " + e.getMessage());
@@ -147,20 +147,7 @@ public abstract class Creature {
 
     }
 
-    private void attendreVIP(int temps) { //faire en sorte que plus il attend plus il perd du moral
 
-        getMoral().state(false, 10 * temps);
-    }
 
-    private void attendreTriage(ArrayList<Creature> creatures, int temps) { //il perd de moin en moin de moral quand il y a des collegues (+ il y a des potes moin il perd du moral)
-        creatures.remove(this);
-        int countTriage = 1;
-        for (Creature creature : creatures) {
-            if (creature instanceof Triage) {
-                countTriage++;
-            }
 
-        }
-        getMoral().state(false, 10 / countTriage );
-    }
 }

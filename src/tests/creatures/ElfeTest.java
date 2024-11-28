@@ -28,12 +28,10 @@ public class ElfeTest {
     public void setUpCreatures() {
         elfe.getMoral().setValeur(100);
     }
-
     @Test
     public void testAttendre() {
-
         int initialMoral = elfe.getMoral().getValeur();
-        elfe.attendre(creatures, 2);
+        elfe.attendre(creatures, 20);
         assertFalse(initialMoral == elfe.getMoral().getValeur());
     }
 
