@@ -1,8 +1,10 @@
 package tp4;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
-public class Lycanthrope {
+public class Lycanthrope implements Comparable<Lycanthrope> {
 
     public enum Sexe {
         MALE, FEMELLE
@@ -16,12 +18,15 @@ public class Lycanthrope {
     private final CategorieAge categorieAge;
     private final int force;
     private final int facteurDomination;
-    private final int rang;
+    private int rang;  // Enlevez le final ici
     private final double facteurImpetuosite;
     private String meute;
     private final double niveau;
     private boolean estHumain = false;
     private boolean estMalade = false;
+
+    private Lycanthrope maleAlpha;  // Le mâle α
+    private Lycanthrope femelleAlpha;  // La femelle α
 
     public Lycanthrope(Sexe sexe, CategorieAge categorieAge, int force, int facteurDomination, int rang, double facteurImpetuosite, String meute) {
         if (force <= 0) throw new IllegalArgumentException("La force doit être positive.");
@@ -56,15 +61,62 @@ public class Lycanthrope {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Lycanthrope that = (Lycanthrope) o;
-        return rang == that.rang &&
-                sexe == that.sexe &&
-                categorieAge == that.categorieAge &&
-                meute.equals(that.meute);
+        return force == that.force &&
+                facteurDomination == that.facteurDomination &&
+                rang == that.rang &&
+                Double.compare(that.facteurImpetuosite, facteurImpetuosite) == 0 &&
+                Objects.equals(sexe, that.sexe) &&
+                Objects.equals(categorieAge, that.categorieAge) &&
+                Objects.equals(meute, that.meute);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(sexe, categorieAge, rang, meute);
+        return Objects.hash(sexe, categorieAge, force, facteurDomination, rang, facteurImpetuosite, meute);
+    }
+
+    // Getter et Setter pour `rang`
+    public int getRang() {
+        return rang;
+    }
+
+    public Sexe getSexe() {
+        return sexe;
+    }
+
+    public void setRang(int rang) {
+        this.rang = rang;
+    }
+
+    // Nouvelle méthode pour définir le couple alpha
+    public void definirCoupleAlpha(List<Lycanthrope> meute) {
+        Optional<Lycanthrope> maleAlphaOpt = meute.stream()
+                .filter(l -> l.sexe == Sexe.MALE && l.categorieAge == CategorieAge.ADULTE)
+                .max((l1, l2) -> Integer.compare(l1.force, l2.force));
+
+        Optional<Lycanthrope> femelleAlphaOpt = meute.stream()
+                .filter(l -> l.sexe == Sexe.FEMELLE && l.categorieAge == CategorieAge.ADULTE)
+                .max((l1, l2) -> Double.compare(l1.niveau, l2.niveau));
+
+        maleAlphaOpt.ifPresent(m -> this.maleAlpha = m);
+        femelleAlphaOpt.ifPresent(f -> this.femelleAlpha = f);
+    }
+
+    // Méthode pour gérer un conflit de domination
+    public void contestationDomination(Lycanthrope challenger) {
+        if (challenger.sexe == Sexe.MALE && challenger.categorieAge == CategorieAge.ADULTE) {
+            if (challenger.force > maleAlpha.force) {
+                maleAlpha = challenger;
+                definirCoupleAlpha(List.of(maleAlpha, femelleAlpha));
+            }
+        }
+    }
+
+    // Méthode pour gérer la déchéance de la femelle alpha
+    public void femelleDechue() {
+        if (femelleAlpha != null) {
+            femelleAlpha.setRang(maleAlpha.getRang());  // Elle prend le même rang de domination que son ancien conjoint
+        }
     }
 
     public void afficherCaracteristiques() {
@@ -93,45 +145,7 @@ public class Lycanthrope {
         System.out.println("Le lycanthrope s'est transformé en humain.");
     }
 
-    public Sexe getSexe() {
-        return sexe;
-    }
 
-    public CategorieAge getCategorieAge() {
-        return categorieAge;
-    }
-
-    public int getForce() {
-        return force;
-    }
-
-    public int getFacteurDomination() {
-        return facteurDomination;
-    }
-
-    public int getRang() {
-        return rang;
-    }
-
-    public double getFacteurImpetuosite() {
-        return facteurImpetuosite;
-    }
-
-    public String getMeute() {
-        return meute;
-    }
-
-    public double getNiveau() {
-        return niveau;
-    }
-
-    public boolean isEstHumain() {
-        return estHumain;
-    }
-
-    public void setMalade(boolean malade) {
-        this.estMalade = malade;
-    }
 
     @Override
     public String toString() {

@@ -125,6 +125,9 @@ public abstract class Creature {
         this.moral = moral;
     }
 
+    public Creature getCreature() {
+        return this;
+    }
     public ArrayList<Maladie> getMaladies() {
         return maladies;
     }

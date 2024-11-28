@@ -1,5 +1,5 @@
 package tp4;
 
-public interface Comparable {
-
+public interface Comparable<T> {
+    int compareTo(T o);
 }

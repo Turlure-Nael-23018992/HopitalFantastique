@@ -14,13 +14,14 @@ public class Vampire extends Creature implements Demoralisateur, Contamineur, Re
         super(name, sexe, poids, taille, age);
     }
 
+    public void demoraliser(Creature creature) {
 
-
+    }
     @Override
     public void trepasser() {
         super.trepasser();
         //contaminer(this);
-        demoraliser(this);
+        //demoraliser(this);
         this.regenerer();
     }
 
@@ -41,13 +42,8 @@ public class Vampire extends Creature implements Demoralisateur, Contamineur, Re
         }
     }
 
-    @Override
-    public void regenerer() {
-        super.getMoral().setValeur(100);
-    }
-    public void attendre(int temps) { //faire en sorte que plus il attend plus il perd du moral
 
-        getMoral().state(false, 10 * temps);
-    }
+
+
 
 }

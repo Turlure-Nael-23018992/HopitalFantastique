@@ -17,31 +17,31 @@ public class Meute {
 
     public void afficherHierarchie() {
         lycanthropes.stream()
-                .sorted((l1, l2) -> l1.getRang().compareTo(l2.getRang())) // compareTo garanti valide
+                .sorted((l1, l2) -> Integer.compare(l1.getRang(), l2.getRang()))  // On compare directement les entiers
                 .forEach(System.out::println);
     }
 
     public Lycanthrope getAlphaMale() {
         return lycanthropes.stream()
-                .filter(l -> l.getRang().equals("α") && l.getSexe() == Lycanthrope.Sexe.MALE)
+                .filter(l -> l.getRang() == 1 && l.getSexe() == Lycanthrope.Sexe.MALE)  // Si le rang "α" correspond à 1
                 .findFirst().orElse(null);
     }
 
     public Lycanthrope getAlphaFemelle() {
         return lycanthropes.stream()
-                .filter(l -> l.getRang().equals("α") && l.getSexe() == Lycanthrope.Sexe.FEMELLE)
+                .filter(l -> l.getRang() == 1 && l.getSexe() == Lycanthrope.Sexe.FEMELLE)  // Si le rang "α" correspond à 1
                 .findFirst().orElse(null);
     }
 
     public Lycanthrope getSouffreDouleur() {
         return lycanthropes.stream()
-                .filter(l -> l.getRang().equals("ω"))
+                .filter(l -> l.getRang() == Integer.MAX_VALUE)  // Si le rang "ω" correspond à un rang très élevé
                 .findFirst().orElse(null);
     }
 
     public List<Lycanthrope> getSubordinates(Lycanthrope lycanthrope) {
         return lycanthropes.stream()
-                .filter(l -> l.getRang().compareTo(lycanthrope.getRang()) > 0)  // Utilise lexicographique
+                .filter(l -> l.getRang() > lycanthrope.getRang())  // Les subordonnés ont un rang supérieur
                 .toList();
     }
 }
