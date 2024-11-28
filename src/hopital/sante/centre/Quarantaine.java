@@ -15,7 +15,7 @@ public class Quarantaine extends ServiceMedical {
                        int nbPresent,
                        ArrayList<Creature> creatures,
                        Budget budget) {
-        super();
+        super(nom, superficie, max);
     }
 
     @Override

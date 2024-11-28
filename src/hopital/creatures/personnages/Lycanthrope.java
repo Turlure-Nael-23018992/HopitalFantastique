@@ -16,26 +16,9 @@ public class Lycanthrope extends Creature implements Contamineur, Triage {
     }
 
     @Override
-    public void contaminer(ServiceMedical serviceMedical) {
-        Random r = new Random();
-        if (serviceMedical.getNbPresent() == 0) return;
-        int chance = r.nextInt(serviceMedical.getNbPresent());
-        Creature newContamine = serviceMedical.getCreatures().get(chance - 1);
-        ArrayList<Maladie> maladies = this.getMaladies();
-
-        if (maladies.isEmpty()) return;
-
-        Maladie newMaladie = maladies.get(r.nextInt(maladies.size()));
-
-        if (!newContamine.getMaladies().contains(newMaladie)) {
-            newContamine.getMaladies().add(newMaladie);
-        }
-    }
-
-    @Override
     public void trepasser() {
         super.trepasser();
-        //contaminer(this);
+        contaminer(ServiceMedical.getInstance());
     }
 
 
