@@ -1,33 +1,85 @@
 package tp4;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Représente une meute de lycanthropes avec un couple alpha et des interactions internes.
+ */
 public class Meute {
-    // Attributs
-    private Lycanthrope maleAlpha; // Mâle alpha de la meute
-    private Lycanthrope femelleAlpha; // Femelle alpha de la meute
+    private CoupleAlpha coupleAlpha;            // Couple α de la meute
     private final List<Lycanthrope> lycanthropes; // Liste des lycanthropes de la meute
 
-    // Constructeur
+    /**
+     * Constructeur pour initialiser une meute vide.
+     */
     public Meute() {
         this.lycanthropes = new ArrayList<>();
-        this.maleAlpha = null;
-        this.femelleAlpha = null;
+        this.coupleAlpha = null;
     }
 
-    // Méthode pour afficher les caractéristiques de la meute
+    /**
+     * Ajoute un lycanthrope à la meute.
+     *
+     * @param lycan Le lycanthrope à ajouter.
+     */
+    public void ajouterLycanthrope(Lycanthrope lycan) {
+        if (!lycanthropes.contains(lycan)) {
+            lycanthropes.add(lycan);
+            lycan.setMeute("Meute");
+            System.out.println("Le lycanthrope " + lycan.getNom() + " a été ajouté à la meute.");
+        } else {
+            System.out.println("Le lycanthrope " + lycan.getNom() + " appartient déjà à la meute.");
+        }
+    }
+
+    /**
+     * Retire un lycanthrope de la meute.
+     *
+     * @param lycan Le lycanthrope à retirer.
+     */
+    public void enleverLycanthrope(Lycanthrope lycan) {
+        if (lycanthropes.remove(lycan)) {
+            lycan.setMeute("solitaire");
+            System.out.println("Le lycanthrope " + lycan.getNom() + " a été retiré de la meute.");
+        } else {
+            System.out.println("Le lycanthrope " + lycan.getNom() + " n'appartient pas à la meute.");
+        }
+    }
+
+    /**
+     * Définit un couple alpha (un mâle et une femelle) pour la meute.
+     *
+     * @param male    Le lycanthrope mâle.
+     * @param femelle Le lycanthrope femelle.
+     */
+    public void definirCoupleAlpha(Lycanthrope male, Lycanthrope femelle) {
+        if (male.getSexe() == Lycanthrope.Sexe.MALE && femelle.getSexe() == Lycanthrope.Sexe.FEMELLE) {
+            this.coupleAlpha = new CoupleAlpha(male, femelle);
+            System.out.println("Couple α défini :");
+            coupleAlpha.afficherCaracteristiques();
+        } else {
+            System.out.println("Erreur : Le couple α doit être constitué d'un mâle et d'une femelle.");
+        }
+    }
+
+    /**
+     * Affiche les caractéristiques de la meute.
+     */
     public void afficherCaracteristiques() {
         System.out.println("Caractéristiques de la meute :");
-        if (maleAlpha != null && femelleAlpha != null) {
-            System.out.println("Couple α : " + maleAlpha.getNom() + " et " + femelleAlpha.getNom());
+        if (coupleAlpha != null) {
+            coupleAlpha.afficherCaracteristiques();
         } else {
             System.out.println("Pas de couple α.");
         }
         System.out.println("Nombre de lycanthropes dans la meute : " + lycanthropes.size());
     }
 
-    // Méthode pour afficher les caractéristiques des lycanthropes
+    /**
+     * Affiche les caractéristiques de tous les lycanthropes dans la meute.
+     */
     public void afficherLycanthropes() {
         if (lycanthropes.isEmpty()) {
             System.out.println("La meute ne contient aucun lycanthrope.");
@@ -39,7 +91,23 @@ public class Meute {
         }
     }
 
-    // Méthode pour créer une nouvelle hiérarchie de meute
+    /**
+     * Lance une reproduction entre le couple alpha.
+     */
+    public void lancerReproduction() {
+        if (coupleAlpha != null) {
+            List<Lycanthrope> portee = coupleAlpha.reproduire();
+            lycanthropes.addAll(portee);
+        } else {
+            System.out.println("Impossible de lancer la reproduction : pas de couple α.");
+        }
+    }
+
+    /**
+     * Crée une nouvelle hiérarchie en réorganisant les lycanthropes.
+     *
+     * @param nouveauxLycanthropes Liste des nouveaux lycanthropes.
+     */
     public void creerNouvelleHierarchie(List<Lycanthrope> nouveauxLycanthropes) {
         this.lycanthropes.clear();
         this.lycanthropes.addAll(nouveauxLycanthropes);
@@ -47,92 +115,88 @@ public class Meute {
         System.out.println("Nouvelle hiérarchie créée avec " + nouveauxLycanthropes.size() + " lycanthropes.");
     }
 
-    // Méthode pour définir le couple α automatiquement
+    /**
+     * Définit automatiquement un couple alpha basé sur les rangs hiérarchiques.
+     */
     private void definirCoupleAlphaAutomatiquement() {
-        Lycanthrope nouveauMaleAlpha = lycanthropes.stream()
-                .filter(l -> l.getSexe() == Lycanthrope.Sexe.MALE && l.isSolitaire() == false)
+        Lycanthrope maleAlpha = lycanthropes.stream()
+                .filter(l -> l.getSexe() == Lycanthrope.Sexe.MALE)
                 .max((l1, l2) -> Integer.compare(l1.getRang(), l2.getRang()))
                 .orElse(null);
 
-        Lycanthrope nouvelleFemelleAlpha = lycanthropes.stream()
-                .filter(l -> l.getSexe() == Lycanthrope.Sexe.FEMELLE && l.isSolitaire() == false)
+        Lycanthrope femelleAlpha = lycanthropes.stream()
+                .filter(l -> l.getSexe() == Lycanthrope.Sexe.FEMELLE)
                 .max((l1, l2) -> Integer.compare(l1.getRang(), l2.getRang()))
                 .orElse(null);
 
-        this.maleAlpha = nouveauMaleAlpha;
-        this.femelleAlpha = nouvelleFemelleAlpha;
-    }
-
-    // Méthode pour constituer un couple α
-    public void definirCoupleAlpha(Lycanthrope male, Lycanthrope femelle) {
-        if (male.getSexe() == Lycanthrope.Sexe.MALE && femelle.getSexe() == Lycanthrope.Sexe.FEMELLE) {
-            this.maleAlpha = male;
-            this.femelleAlpha = femelle;
-            System.out.println("Couple α défini : " + male.getNom() + " et " + femelle.getNom());
-        } else {
-            System.out.println("Erreur : Le couple α doit être constitué d'un mâle et d'une femelle.");
-        }
-    }
-
-    // Méthode pour lancer la reproduction des lycanthropes
-    public void lancerReproduction() {
         if (maleAlpha != null && femelleAlpha != null) {
-            int nbEnfants = (int) (Math.random() * 7) + 1; // Portée de 1 à 7
-            for (int i = 0; i < nbEnfants; i++) {
-                Lycanthrope nouveauLycan = new Lycanthrope(
-                        "Nouveau-né" + (i + 1),
-                        Lycanthrope.Sexe.MALE,
-                        Lycanthrope.CategorieAge.JEUNE,
-                        10,
-                        0,
-                        0,
-                        0.1,
-                        "Meute");
-                lycanthropes.add(nouveauLycan);
-            }
-            System.out.println("Reproduction réussie ! " + nbEnfants + " jeunes lycanthropes ont été ajoutés.");
+            definirCoupleAlpha(maleAlpha, femelleAlpha);
         } else {
-            System.out.println("Impossible de lancer la reproduction : pas de couple α.");
+            System.out.println("Impossible de définir automatiquement un couple α : critères non remplis.");
         }
     }
 
-    // Méthode pour décrémenter les rangs de domination
+    /**
+     * Diminue les rangs de domination de tous les lycanthropes de la meute.
+     */
     public void diminuerRangsDomination() {
         for (Lycanthrope lycan : lycanthropes) {
             int nouveauRang = Math.max(0, lycan.getRang() - 1); // Le rang ne peut pas être négatif
             lycan.setRang(nouveauRang);
         }
+        definirCoupleAlphaAutomatiquement(); // Mise à jour automatique du couple α après modification des rangs
         System.out.println("Rangs de domination diminués pour tous les lycanthropes.");
     }
 
-    // Méthode pour déclarer un lycanthrope ω (rang 0)
-    public void declarerOmega(Lycanthrope lycan) {
-        if (lycanthropes.contains(lycan)) {
-            lycan.setRang(0);
-            System.out.println("Le lycanthrope " + lycan.getNom() + " est maintenant ω.");
-        } else {
-            System.out.println("Le lycanthrope n'appartient pas à la meute.");
+    /**
+     * Propage un hurlement dans la meute.
+     *
+     * @param hurlement Le hurlement à propager.
+     */
+    public void propagerHurlement(Hurlement hurlement) {
+        System.out.println("\n=== Propagation du hurlement dans la meute ===");
+        for (Lycanthrope lycan : lycanthropes) {
+            if (!lycan.equals(hurlement.getEmetteur())) {
+                lycan.repondreHurlement(hurlement);
+            }
         }
     }
 
-    // Méthode pour ajouter un lycanthrope
-    public void ajouterLycanthrope(Lycanthrope lycan) {
-        if (!lycanthropes.contains(lycan)) {
-            lycanthropes.add(lycan);
-            lycan.setMeute("Meute");
-            System.out.println("Le lycanthrope " + lycan.getNom() + " a été ajouté à la meute.");
-        } else {
-            System.out.println("Le lycanthrope " + lycan.getNom() + " appartient déjà à la meute.");
+    /**
+     * Gère la transformation d'un lycanthrope en humain.
+     *
+     * @param lycan Le lycanthrope à transformer.
+     */
+    public void gererTransformation(Lycanthrope lycan) {
+        if (lycan.seTransformerEnHumain()) {
+            enleverLycanthrope(lycan);
+            System.out.println("Réorganisation de la meute suite au départ de " + lycan.getNom() + ".");
+            definirCoupleAlphaAutomatiquement(); // Mise à jour du couple α si nécessaire
         }
     }
 
-    // Méthode pour enlever un lycanthrope
-    public void enleverLycanthrope(Lycanthrope lycan) {
-        if (lycanthropes.remove(lycan)) {
-            lycan.setMeute("solitaire");
-            System.out.println("Le lycanthrope " + lycan.getNom() + " a été retiré de la meute.");
-        } else {
-            System.out.println("Le lycanthrope " + lycan.getNom() + " n'appartient pas à la meute.");
+    /**
+     * Transforme toute la meute en humains.
+     */
+    public void transformerMeute() {
+        System.out.println("\n=== Transformation de la meute en humains ===");
+        Iterator<Lycanthrope> iterator = lycanthropes.iterator();
+        while (iterator.hasNext()) {
+            Lycanthrope lycan = iterator.next();
+            if (lycan.seTransformerEnHumain()) {
+                iterator.remove();
+                System.out.println(lycan.getNom() + " a quitté la meute.");
+            }
         }
+        definirCoupleAlphaAutomatiquement(); // Mise à jour du couple α après transformations
+    }
+
+    /**
+     * Getter pour les lycanthropes de la meute.
+     *
+     * @return Liste des lycanthropes.
+     */
+    public List<Lycanthrope> getLycanthropes() {
+        return lycanthropes;
     }
 }
