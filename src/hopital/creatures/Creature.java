@@ -35,7 +35,7 @@ public abstract class Creature {
     }
 
     public void attendre() {
-        moral.state(false, 5);
+        moral.state(false, 20);
         System.out.println("La créature " + this.name + " a attendu et a maintenant un moral de " + this.moral);
     }
 
@@ -138,10 +138,15 @@ public abstract class Creature {
 
     public void attendre(ArrayList<Creature> creatures, int temps) {
         try {
-            Thread.sleep(temps * 1000);
+            System.out.println("Avant sleep");
+            Thread.sleep(1);
+            System.out.println("Après sleep");
+
             if (this instanceof VIP) {
-                ((VIP) this).attendre(creatures,temps);
+                System.out.println("VIP attendre");
+                ((VIP) this).attendre(creatures, temps);
             } else if (this instanceof Triage) {
+                System.out.println("Triage attendre");
                 ((Triage) this).attendre(temps);
             }
         } catch (InterruptedException e) {
