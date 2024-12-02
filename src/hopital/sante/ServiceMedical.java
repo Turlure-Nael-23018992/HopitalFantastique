@@ -7,6 +7,9 @@ import hopital.sante.caracteristiques.Budget;
 import hopital.sante.centre.Crypte;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Random;
 import java.util.concurrent.locks.ReentrantLock;
 
 public abstract class ServiceMedical {
@@ -118,9 +121,28 @@ public abstract class ServiceMedical {
     }
 
 
-    public abstract void deleteCreature(Creature creature);
+    public void deleteCreature(Creature creature){
+        getCreatures().remove(creature);
+    }
 
-    public abstract void soigneCreature(Creature creature);
+    public void soigneCreature(Creature creature){
+        Iterator<Maladie> iterator = creature.getMaladies().iterator();
+        while (iterator.hasNext()) {
+            Maladie maladie = iterator.next();
+            iterator.remove();
+            creature.etreSoignee(maladie);
 
-    public abstract void reviserBudget();
+        }
+
+    }
+
+    public void reviserBudget(boolean b){
+        if (b) {
+            budget.ajusterBudget(true, 10000);
+
+        }else{
+            budget.ajusterBudget(false, 10000);
+    }
+        budget = budget.getNiveauActuel();
+    }
 }

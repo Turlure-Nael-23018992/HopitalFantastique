@@ -38,11 +38,13 @@ public class Medecin extends Creature{  //TODO ne pas tomber malade
     }
 
     public void soignerMedicaux(ServiceMedical medicaux) {
-        medicaux.getCreatures(); //Les faire soigner
+        for (Creature creature : medicaux.getCreatures()) {
+            medicaux.soigneCreature(creature);
+        }
     }
 
     public void reviserBudgetMedicaux(ServiceMedical medicaux) {
-        medicaux.reviserBudget();
+        medicaux.reviserBudget(true);
     }
 
     public void transfertCreature(Creature creature, ServiceMedical medicaux) {
