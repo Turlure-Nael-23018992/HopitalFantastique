@@ -1,4 +1,4 @@
-package tp4;
+package tp4.main;
 
 public class Main {
     public static void main(String[] args) {

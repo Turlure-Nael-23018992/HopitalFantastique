@@ -1,4 +1,4 @@
-package tp4;
+package tp4.main;
 
 /**
  * Représente un hurlement émis par un lycanthrope.

@@ -1,4 +1,4 @@
-package tp4;
+package tp4.main;
 
 import java.util.Objects;
 
@@ -13,14 +13,14 @@ public class Lycanthrope implements Comparable<Lycanthrope> {
 
     private final String nom;               // Nom du lycanthrope
     private final Sexe sexe;                // Sexe du lycanthrope
-    private CategorieAge categorieAge;      // Catégorie d'âge (jeune, adulte, vieux)
-    private final int force;                // Force physique
-    private int facteurDomination;          // Facteur de domination
+    public CategorieAge categorieAge;      // Catégorie d'âge (jeune, adulte, vieux)
+    public final int force;                // Force physique
+    public int facteurDomination;          // Facteur de domination
     private int rang;                       // Rang dans la hiérarchie
     private final double facteurImpetuosite;// Impétuosité (entre 0 et 1)
     private String meute;                   // Nom de la meute
-    private double niveau;                  // Niveau calculé
-    private boolean estHumain = false;      // Indique si transformé en humain
+    public double niveau;                  // Niveau calculé
+    public boolean estHumain = false;      // Indique si transformé en humain
     private boolean estMalade = false;      // Indique si malade
     private boolean solitaire;              // Indique si le lycanthrope est solitaire
 

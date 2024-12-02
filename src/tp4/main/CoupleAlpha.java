@@ -1,4 +1,4 @@
-package tp4;
+package tp4.main;
 
 import java.util.ArrayList;
 import java.util.List;
