@@ -18,6 +18,7 @@ import hopital.sante.caracteristiques.Budget;
  */
 public class Hopital {
 
+    private static Hopital instance;
     private String nom;
     private int nbMaxServices;
     private List<ServiceMedical> servicesMedicaux;
@@ -42,7 +43,12 @@ public class Hopital {
         this.scanner = new Scanner(System.in);
     }
 
-    // Getters et setters
+    public static Hopital getInstance(String nom, int nbMaxServices) {
+        if (instance == null) {
+            instance = new Hopital(nom, nbMaxServices);
+        }
+        return instance;
+    }
 
     /**
      * Obtient le nom de l'hôpital.
@@ -340,7 +346,7 @@ public class Hopital {
      * @param args Les arguments en ligne de commande (non utilisés ici).
      */
     public static void main(String[] args) {
-        Hopital hopital = new Hopital("Fantasy Hospital", 5);
+        Hopital hopital = Hopital.getInstance("Fantasy Hospital", 5);
 
         ArrayList<Creature> creatures = new ArrayList<>();
 
