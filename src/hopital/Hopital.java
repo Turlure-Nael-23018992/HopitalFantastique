@@ -348,25 +348,28 @@ public class Hopital {
     public static void main(String[] args) {
         Hopital hopital = Hopital.getInstance("Fantasy Hospital", 5);
 
-        // Création des créatures
+        // Création des créatures avec une plus grande diversité
         ArrayList<Creature> creaturesCrypte = new ArrayList<>(Arrays.asList(
                 new Vampire("Dracula", Sexe.MASCULIN, 180, 185, 540),
                 new Vampire("Selene", Sexe.FEMININ, 65, 170, 300),
                 new Zombie("Walker", Sexe.MASCULIN, 50, 160, 80),
-                new Zombie("Shambler", Sexe.FEMININ, 55, 165, 70)
+                new Zombie("Shambler", Sexe.FEMININ, 55, 165, 70),
+                new Elfe("Legolas", Sexe.MASCULIN, 190, 190, 1000), // Nouveau Elfe
+                new Reptilien("Nagashi", Sexe.FEMININ, 200, 230, 500) // Nouveau Reptilien
         ));
 
         ArrayList<Creature> creaturesQuarantaine = new ArrayList<>(Arrays.asList(
                 new Orque("Grumsh", Sexe.MASCULIN, 120, 200, 40),
                 new Lycanthrope("Fenrir", Sexe.MASCULIN, 95, 190, 32),
                 new HommeBete("Ragnar", Sexe.MASCULIN, 88, 185, 29),
-                new Lycanthrope("Lupa", Sexe.FEMININ, 80, 175, 27)
+                new Lycanthrope("Lupa", Sexe.FEMININ, 80, 175, 27),
+                new Nain("Thorin", Sexe.MASCULIN, 140, 145, 50), // Nouveau Nain
+                new Reptilien("Zar'thax", Sexe.MASCULIN, 180, 210, 550) // Nouveau Reptilien
         ));
 
-
-
+        // Création des services médicaux avec un ton encore plus décalé
         ServiceMedical crypte = new Crypte(
-                "Crypte des Non-Morts",
+                "Crypte des Non-Morts - Attention aux bruits étranges !",
                 200,
                 10,
                 0,
@@ -374,11 +377,10 @@ public class Hopital {
                 Budget.MEDIOCRE
         );
         crypte.setBudget(Budget.MEDIOCRE);
-
         crypte.setCreatures(creaturesCrypte);
 
         ServiceMedical quarantaine = new Quarantaine(
-                "Zone de Quarantaine",
+                "Zone de Quarantaine - Ne laissez pas les portes ouvertes !",
                 300,
                 10,
                 0,
@@ -386,25 +388,53 @@ public class Hopital {
                 Budget.MEDIOCRE
         );
         quarantaine.setBudget(Budget.MEDIOCRE);
-
         quarantaine.setCreatures(creaturesQuarantaine);
+
         hopital.ajouterService(crypte);
         hopital.ajouterService(quarantaine);
 
+        // Ajout des médecins avec des caractéristiques drôles
         Medecin medecinElfe = new Medecin("Elrond", Sexe.MASCULIN, 2000);
         Medecin medecinVampire = new Medecin("Alucard", Sexe.FEMININ, 500);
 
         hopital.ajouterMedecin(medecinElfe);
         hopital.ajouterMedecin(medecinVampire);
 
-        System.out.println("\nMédecins dans l'hôpital:");
+        // Affichage des médecins avec des blagues et petites descriptions
+        System.out.println("\n👩‍⚕️🧛‍♂️ Bienvenue dans le royaume de la médecine fantastique !");
         if (hopital.getMedecins().isEmpty()) {
-            System.out.println("Aucun médecin n'a été ajouté correctement!");
+            System.out.println("Erreur : les médecins ont mystérieusement disparu (ils sont allés boire un café, sans doute).");
         } else {
             for (Medecin medecin : hopital.getMedecins()) {
-                System.out.println("Dr. " + medecin.getNom());
+                System.out.println("Dr. " + medecin.getName() + " arrive à sauver la situation ! Il a plus de siècles de pratique que d'âge.");
             }
         }
+
+        // Création de petites scènes ludiques avec les créatures
+        System.out.println("\n🧟‍♂️ Les créatures se réveillent... le spectacle commence !");
+        for (Creature creature : creaturesCrypte) {
+            System.out.println(creature.getName() + " fait une entrée théâtrale ! Elle grogne... mais c'est mignon, non ?");
+        }
+        for (Creature creature : creaturesQuarantaine) {
+            System.out.println(creature.getName() + " se frotte les mains, prêt à tester ses pouvoirs étranges. Faites attention !");
+        }
+
+        // Lancement de la simulation avec des surprises
+        System.out.println("\n💥 Lancer la simulation... Un événement étrange va se produire...");
         hopital.demarrerSimulation();
+
+        // Messagerie dynamique pendant la simulation
+        System.out.println("\n💀 Un cri dans le couloir... Attendez-vous à des rebondissements !");
+        System.out.println("🎉 La simulation débute et chaque créature a quelque chose de spécial à vous offrir!");
+
+        // Simulation de chaos avec des messages inattendus
+        System.out.println("\n🤖 Une machine étrange dans le coin se met à marcher toute seule... c'est... un robot médecin ?!");
+        System.out.println("🦇 Une chauve-souris frappe à la fenêtre en hurlant : 'La consultation est gratuite, mais le café coûte une fortune !'");
+
+        // Messages de fin et conclusion décalée
+        System.out.println("\n🎭 La simulation se termine avec un grand fracas... Mais tout le monde est encore en vie (pour l'instant) !");
+        System.out.println("✨ Vous avez survécu à l'inattendu ! Félicitations, ou plutôt, 'Salut et bienvenue dans le chaos' !");
     }
+
+
 }
