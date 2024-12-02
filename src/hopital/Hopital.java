@@ -348,21 +348,34 @@ public class Hopital {
     public static void main(String[] args) {
         Hopital hopital = Hopital.getInstance("Fantasy Hospital", 5);
 
-        ArrayList<Creature> creatures = new ArrayList<>();
+        // Création des créatures
+        ArrayList<Creature> creaturesCrypte = new ArrayList<>(Arrays.asList(
+                new Vampire("Dracula", Sexe.MASCULIN, 180, 185, 540),
+                new Vampire("Selene", Sexe.FEMININ, 65, 170, 300),
+                new Zombie("Walker", Sexe.MASCULIN, 50, 160, 80),
+                new Zombie("Shambler", Sexe.FEMININ, 55, 165, 70)
+        ));
 
-        for (int i = 0; i < 10; i++) {
+        ArrayList<Creature> creaturesQuarantaine = new ArrayList<>(Arrays.asList(
+                new Orque("Grumsh", Sexe.MASCULIN, 120, 200, 40),
+                new Lycanthrope("Fenrir", Sexe.MASCULIN, 95, 190, 32),
+                new HommeBete("Ragnar", Sexe.MASCULIN, 88, 185, 29),
+                new Lycanthrope("Lupa", Sexe.FEMININ, 80, 175, 27)
+        ));
 
-        }
+
 
         ServiceMedical crypte = new Crypte(
                 "Crypte des Non-Morts",
                 200,
                 10,
                 0,
-                creatures,
+                new ArrayList<>(),
                 Budget.MEDIOCRE
         );
         crypte.setBudget(Budget.MEDIOCRE);
+
+        crypte.setCreatures(creaturesCrypte);
 
         ServiceMedical quarantaine = new Quarantaine(
                 "Zone de Quarantaine",
@@ -374,6 +387,7 @@ public class Hopital {
         );
         quarantaine.setBudget(Budget.MEDIOCRE);
 
+        quarantaine.setCreatures(creaturesQuarantaine);
         hopital.ajouterService(crypte);
         hopital.ajouterService(quarantaine);
 
