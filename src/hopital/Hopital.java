@@ -303,7 +303,7 @@ public class Hopital {
             int creatureIndex = scanner.nextInt();
 
             if (creatureIndex >= 0 && creatureIndex < creatures.size()) {
-                medecin.transfertCreature( creatures.get(creatureIndex), destination);
+                medecin.transfertCreature( creatures.get(creatureIndex),source, destination);
             }
         }
     }

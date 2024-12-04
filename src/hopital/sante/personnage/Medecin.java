@@ -47,12 +47,11 @@ public class Medecin extends Creature{  //TODO ne pas tomber malade
         medicaux.reviserBudget(true);
     }
 
-    public void transfertCreature(Creature creature, ServiceMedical medicaux) {
+    public void transfertCreature(Creature creature, ServiceMedical actuel, ServiceMedical medicaux) {
         if (medicaux.getCreatures().contains(creature)) {
             System.out.println("Le centre médical " + medicaux.getNom() + " contient déjà la créature " + creature.getName());
         } else {
-            //TODO Cherche et supprime la créature de son centre médical actuel
-
+            actuel.deleteCreature(creature);
             medicaux.getCreatures().add(creature);
             System.out.println("La créature " + creature.getName() + " a été transférée au centre médical " + medicaux.getNom());
         }
