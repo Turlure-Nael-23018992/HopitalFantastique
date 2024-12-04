@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"hopital"},{"l":"hopital.creatures"},{"l":"hopital.creatures.caracteristiques"},{"l":"hopital.creatures.personnages"},{"l":"hopital.sante"},{"l":"hopital.sante.caracteristiques"},{"l":"hopital.sante.centre"},{"l":"hopital.sante.personnage"},{"l":"tests.creatures"},{"l":"tp4.main"}];updateSearchResults();
